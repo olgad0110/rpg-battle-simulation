@@ -10,7 +10,7 @@ defmodule RpgBattleSimulation.Regular.Battle do
   @type t :: %__MODULE__{
           attacker: stats(),
           defender: stats(),
-          result: :attacker_won | :defender_won | :draw,
+          result: String.t(),
           rounds: list(RpgBattleSimulation.Regular.Round.t())
         }
   defstruct [:attacker, :defender, :result, :rounds]

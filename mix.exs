@@ -29,7 +29,8 @@ defmodule RpgBattleSimulation.MixProject do
       {:eventstore, "~> 0.17"},
       {:ecto_sql, "~> 3.0"},
       {:postgrex, ">= 0.0.0"},
-      {:commanded_ecto_projections, "~> 0.8"}
+      {:commanded_ecto_projections, "~> 0.8"},
+      {:flow, "~> 0.14"}
     ]
   end
 

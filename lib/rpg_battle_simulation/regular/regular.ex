@@ -148,7 +148,7 @@ defmodule RpgBattleSimulation.Regular do
   end
 
   defp maybe_finish_battle(%Battle{rounds: all_rounds} = battle) when length(all_rounds) >= 100 do
-    %{battle | result: :draw}
+    %{battle | result: "draw"}
   end
 
   defp maybe_finish_battle(%Battle{} = battle), do: battle
