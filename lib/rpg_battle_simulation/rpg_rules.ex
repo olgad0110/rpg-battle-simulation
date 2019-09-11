@@ -13,6 +13,17 @@ defmodule RpgBattleSimulation.RpgRules do
     |> length()
   end
 
+  def roll_k6_successes_with_destiny(n, :test), do: {1, round(n / 2)}
+
+  def roll_k6_successes_with_destiny(n, _) do
+    [destiny_dice | _] = dices = roll_k6(n)
+
+    {destiny_dice,
+     dices
+     |> Enum.filter(fn result -> result in @successes end)
+     |> length()}
+  end
+
   @spec calculate_battle_markers(attacker_army_size :: integer(), defender_army_size :: integer()) ::
           {attacker_markers :: integer(), defender_markers :: integer()}
   def calculate_battle_markers(army_size, army_size), do: {10, 10}
@@ -54,10 +65,11 @@ defmodule RpgBattleSimulation.RpgRules do
   def test_tactics([dices, skill_value], modifier) do
     difficulty_level = @base_modifier + modifier - skill_value
 
-    {difficulty_level, roll_k6_successes(dices, Mix.env())}
+    {difficulty_level, roll_k6_successes_with_destiny(dices, Mix.env())}
     |> case do
-      {dl, successes} when dl > successes -> {0, 1}
-      {dl, successes} -> {successes - dl + 1, 0}
+      {dl, {6, successes}} when dl - 2 <= successes -> {1, 0}
+      {dl, {_, successes}} when dl > successes -> {0, 1}
+      {dl, {_, successes}} -> {successes - dl + 1, 0}
     end
   end
 
@@ -72,9 +84,10 @@ defmodule RpgBattleSimulation.RpgRules do
     difficulty_level =
       @base_modifier + modifier + (markers_lost - opponent_markers_lost) - skill_value
 
-    {difficulty_level, roll_k6_successes(dices, Mix.env())}
+    {difficulty_level, roll_k6_successes_with_destiny(dices, Mix.env())}
     |> case do
-      {dl, successes} when dl > successes -> 1
+      {dl, {6, successes}} when dl - 2 <= successes -> 0
+      {dl, {_, successes}} when dl > successes -> 1
       {_dl, _successes} -> 0
     end
   end
