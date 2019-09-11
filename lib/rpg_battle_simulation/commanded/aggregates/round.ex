@@ -38,12 +38,21 @@ defmodule RpgBattleSimulation.Commanded.Aggregates.Round do
       Commanded.get_battle(battle_id)
       |> Projections.Battle.to_aggregate()
 
+    {attacker_last_round_mod, defender_last_round_mod} =
+      case Commanded.get_battle_last_round(battle_id) do
+        nil ->
+          {0, 0}
+
+        %{attacker: attacker, defender: defender} ->
+          {attacker["next_round_modifier"], defender["next_round_modifier"]}
+      end
+
     case battle.result do
       nil ->
         {attacker_tactics_modifier, defender_tactics_modifier} =
           RpgRules.calculate_round_modifiers(
-            {battle.attacker[:markers], attacker_modifier},
-            {battle.defender[:markers], defender_modifier}
+            {battle.attacker[:markers], attacker_modifier + attacker_last_round_mod},
+            {battle.defender[:markers], defender_modifier + defender_last_round_mod}
           )
 
         %RoundStarted{

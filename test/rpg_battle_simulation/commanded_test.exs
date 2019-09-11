@@ -50,13 +50,13 @@ defmodule RpgBattleSimulation.CommandedTest do
       {9,
        %{
          "markers_lost" => 0,
-         "morale_modifier" => 0,
-         "next_round_modifier" => 0,
-         "tactics_modifier" => -2
+         "morale_modifier" => 1,
+         "next_round_modifier" => 1,
+         "tactics_modifier" => -1
        }},
-      {8,
+      {9,
        %{
-         "markers_lost" => 1,
+         "markers_lost" => 0,
          "morale_modifier" => 1,
          "next_round_modifier" => 1,
          "tactics_modifier" => 1
@@ -66,33 +66,33 @@ defmodule RpgBattleSimulation.CommandedTest do
 
     run_and_assert_next_round(
       3,
-      {6,
+      {7,
        %{
-         "markers_lost" => 3,
+         "markers_lost" => 2,
          "morale_modifier" => 1,
          "next_round_modifier" => 1,
-         "tactics_modifier" => -1
+         "tactics_modifier" => 1
        }},
-      {8,
+      {9,
        %{
          "markers_lost" => 0,
          "morale_modifier" => 0,
          "next_round_modifier" => 0,
-         "tactics_modifier" => -2
+         "tactics_modifier" => -1
        }},
       {0, -2}
     )
 
     run_and_assert_next_round(
       4,
-      {4,
+      {5,
        %{
          "markers_lost" => 2,
          "morale_modifier" => 1,
          "next_round_modifier" => 1,
-         "tactics_modifier" => 0
+         "tactics_modifier" => 1
        }},
-      {8,
+      {9,
        %{
          "markers_lost" => 0,
          "morale_modifier" => 0,
@@ -103,18 +103,18 @@ defmodule RpgBattleSimulation.CommandedTest do
 
     run_and_assert_next_round(
       5,
-      {2,
+      {3,
+       %{
+         "markers_lost" => 2,
+         "morale_modifier" => 0,
+         "next_round_modifier" => 1,
+         "tactics_modifier" => -3
+       }},
+      {7,
        %{
          "markers_lost" => 2,
          "morale_modifier" => 0,
          "next_round_modifier" => 0,
-         "tactics_modifier" => -4
-       }},
-      {5,
-       %{
-         "markers_lost" => 3,
-         "morale_modifier" => 0,
-         "next_round_modifier" => 1,
          "tactics_modifier" => -1
        }},
       {-4, 0}
@@ -122,21 +122,21 @@ defmodule RpgBattleSimulation.CommandedTest do
 
     run_and_assert_next_round(
       6,
-      {0,
+      {-1,
        %{
-         "markers_lost" => 2,
+         "markers_lost" => 4,
          "morale_modifier" => 1,
          "next_round_modifier" => 1,
-         "tactics_modifier" => 0
+         "tactics_modifier" => 1
        }},
-      {5,
+      {7,
        %{
          "markers_lost" => 0,
          "morale_modifier" => 0,
          "next_round_modifier" => 0,
-         "tactics_modifier" => -1
+         "tactics_modifier" => -3
        }},
-      {0, 0},
+      {0, -2},
       "defender_won"
     )
 

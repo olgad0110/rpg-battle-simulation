@@ -69,7 +69,7 @@ defmodule RpgBattleSimulation.Commanded.ProcessManager do
         attacker: %{markers: attacker_markers},
         defender: %{markers: defender_markers}
       })
-      when attacker_markers == 0 or defender_markers == 0 do
+      when attacker_markers <= 0 or defender_markers <= 0 do
     IO.puts("Router.dispatch Command.RoundEnded")
 
     %Commands.EndBattle{id: id}
