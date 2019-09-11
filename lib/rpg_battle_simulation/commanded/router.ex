@@ -1,6 +1,6 @@
-defmodule RpgBattleSimulation.Router do
+defmodule RpgBattleSimulation.Commanded.Router do
   use Commanded.Commands.Router
-  alias RpgBattleSimulation.{Aggregates.Battle, Aggregates.Round, Commands}
+  alias RpgBattleSimulation.Commanded.{Aggregates.Battle, Aggregates.Round, Commands}
 
   dispatch(Commands.StartBattle, to: Battle, identity: :id)
   dispatch(Commands.EndRound, to: Battle, identity: :id)

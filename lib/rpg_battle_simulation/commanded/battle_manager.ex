@@ -1,9 +1,9 @@
-defmodule RpgBattleSimulation.BattleManager do
+defmodule RpgBattleSimulation.Commanded.ProcessManager do
   use Commanded.ProcessManagers.ProcessManager,
-    name: "BattleManager",
-    router: RpgBattleSimulation.Router
+    name: "ProcessManager",
+    router: RpgBattleSimulation.Commanded.Router
 
-  alias RpgBattleSimulation.{Commands, Events}
+  alias RpgBattleSimulation.Commanded.{Commands, Events}
 
   @derive Jason.Encoder
   defstruct [:battle_id]

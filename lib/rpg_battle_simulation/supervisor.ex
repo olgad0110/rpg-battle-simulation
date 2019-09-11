@@ -8,9 +8,9 @@ defmodule RpgBattleSimulation.Supervisor do
   def init(:ok) do
     [
       {RpgBattleSimulation.Repo, []},
-      worker(RpgBattleSimulation.Projectors.Battle, [], id: :battle_projector),
-      worker(RpgBattleSimulation.Projectors.Round, [], id: :round_projector),
-      worker(RpgBattleSimulation.BattleManager, [[start_from: :current]])
+      worker(RpgBattleSimulation.Commanded.Projectors.Battle, [], id: :battle_projector),
+      worker(RpgBattleSimulation.Commanded.Projectors.Round, [], id: :round_projector),
+      worker(RpgBattleSimulation.Commanded.ProcessManager, [[start_from: :current]])
     ]
     |> Supervisor.init(strategy: :one_for_one)
   end

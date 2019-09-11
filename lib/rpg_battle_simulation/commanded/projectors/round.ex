@@ -1,12 +1,13 @@
-defmodule RpgBattleSimulation.Projectors.Round do
+defmodule RpgBattleSimulation.Commanded.Projectors.Round do
   use Commanded.Projections.Ecto, name: "round_projection"
 
-  alias RpgBattleSimulation.{
+  alias RpgBattleSimulation.Commanded.{
     Events.RoundStarted,
     Events.MoraleTested,
-    Projections.Round,
-    Repo
+    Projections.Round
   }
+
+  alias RpgBattleSimulation.Repo
 
   project(
     %RoundStarted{

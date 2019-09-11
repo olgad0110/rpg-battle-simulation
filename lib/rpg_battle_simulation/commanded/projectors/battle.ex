@@ -1,13 +1,14 @@
-defmodule RpgBattleSimulation.Projectors.Battle do
+defmodule RpgBattleSimulation.Commanded.Projectors.Battle do
   use Commanded.Projections.Ecto, name: "battle_projection"
 
-  alias RpgBattleSimulation.{
+  alias RpgBattleSimulation.Commanded.{
     Events.BattleStarted,
     Events.RoundEnded,
     Events.BattleEnded,
-    Projections.Battle,
-    Repo
+    Projections.Battle
   }
+
+  alias RpgBattleSimulation.Repo
 
   project(
     %BattleStarted{

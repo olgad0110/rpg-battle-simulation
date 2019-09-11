@@ -1,13 +1,14 @@
-defmodule RpgBattleSimulation.Aggregates.Battle do
-  alias RpgBattleSimulation.{
+defmodule RpgBattleSimulation.Commanded.Aggregates.Battle do
+  alias RpgBattleSimulation.Commanded.{
     Commands.StartBattle,
     Commands.EndRound,
     Commands.EndBattle,
     Events.BattleStarted,
     Events.RoundEnded,
-    Events.BattleEnded,
-    RpgRules
+    Events.BattleEnded
   }
+
+  alias RpgBattleSimulation.RpgRules
 
   @type stats :: %{
           name: String.t(),

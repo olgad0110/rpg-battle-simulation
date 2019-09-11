@@ -1,4 +1,4 @@
-defmodule RpgBattleSimulation.Events.TacticsTested do
+defmodule RpgBattleSimulation.Commanded.Events.RoundStarted do
   @derive Jason.Encoder
   defstruct [:uuid, :round, :battle, :attacker, :defender]
 end

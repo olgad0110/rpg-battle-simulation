@@ -1,5 +1,5 @@
-defmodule RpgBattleSimulation.Aggregates.Round do
-  alias RpgBattleSimulation.{
+defmodule RpgBattleSimulation.Commanded.Aggregates.Round do
+  alias RpgBattleSimulation.Commanded.{
     Aggregates.Battle,
     Commands.StartRound,
     Commands.TestTactics,
@@ -7,9 +7,10 @@ defmodule RpgBattleSimulation.Aggregates.Round do
     Events.RoundStarted,
     Events.TacticsTested,
     Events.MoraleTested,
-    Projections,
-    RpgRules
+    Projections
   }
+
+  alias RpgBattleSimulation.{Commanded, RpgRules}
 
   @type stats :: %{
           tactics_modifier: integer(),
@@ -34,7 +35,7 @@ defmodule RpgBattleSimulation.Aggregates.Round do
         defender_modifier: defender_modifier
       }) do
     battle =
-      RpgBattleSimulation.get_battle(battle_id)
+      Commanded.get_battle(battle_id)
       |> Projections.Battle.to_aggregate()
 
     case battle.result do

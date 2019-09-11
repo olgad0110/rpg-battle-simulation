@@ -1,9 +1,10 @@
-defmodule RpgBattleSimulationTest do
+defmodule RpgBattleSimulation.CommandedTest do
   use ExUnit.Case
-  alias RpgBattleSimulation.Projections.{Battle, Round}
+  alias RpgBattleSimulation.Commanded.Projections.{Battle, Round}
+  alias RpgBattleSimulation.Commanded
 
   test "flow of simulation" do
-    assert :ok = RpgBattleSimulation.start(1)
+    assert :ok = Commanded.start(1)
 
     :timer.sleep(1000)
 
@@ -24,7 +25,7 @@ defmodule RpgBattleSimulationTest do
              },
              id: 1,
              result: nil
-           } = RpgBattleSimulation.get_battle(1)
+           } = Commanded.get_battle(1)
 
     run_and_assert_next_round(
       1,
@@ -139,7 +140,7 @@ defmodule RpgBattleSimulationTest do
       "defender_won"
     )
 
-    assert {:error, :battle_already_finished} = RpgBattleSimulation.next_round(1)
+    assert {:error, :battle_already_finished} = Commanded.next_round(1)
   end
 
   def run_and_assert_next_round(
@@ -149,7 +150,7 @@ defmodule RpgBattleSimulationTest do
         {attacker_modifier, defender_modifier} \\ {0, 0},
         result \\ nil
       ) do
-    assert :ok = RpgBattleSimulation.next_round(1, attacker_modifier, defender_modifier)
+    assert :ok = Commanded.next_round(1, attacker_modifier, defender_modifier)
 
     :timer.sleep(1000)
 
@@ -159,7 +160,7 @@ defmodule RpgBattleSimulationTest do
              round: ^round_number,
              attacker: ^expected_attacker,
              defender: ^expected_defender
-           } = RpgBattleSimulation.get_battle_last_round(1)
+           } = Commanded.get_battle_last_round(1)
 
     next_round_number = round_number + 1
 
@@ -181,6 +182,6 @@ defmodule RpgBattleSimulationTest do
              id: 1,
              result: ^result,
              next_round_number: ^next_round_number
-           } = RpgBattleSimulation.get_battle(1)
+           } = Commanded.get_battle(1)
   end
 end

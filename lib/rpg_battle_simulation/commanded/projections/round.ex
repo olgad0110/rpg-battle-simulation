@@ -1,4 +1,4 @@
-defmodule RpgBattleSimulation.Projections.Round do
+defmodule RpgBattleSimulation.Commanded.Projections.Round do
   use Ecto.Schema
 
   schema "round_projections" do

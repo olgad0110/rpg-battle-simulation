@@ -1,4 +1,5 @@
-defmodule RpgBattleSimulation.Projections.Battle do
+defmodule RpgBattleSimulation.Commanded.Projections.Battle do
+  alias RpgBattleSimulation.Commanded.Aggregates
   use Ecto.Schema
 
   schema "battle_projections" do
@@ -15,7 +16,7 @@ defmodule RpgBattleSimulation.Projections.Battle do
         attacker: attacker,
         defender: defender
       }) do
-    %RpgBattleSimulation.Aggregates.Battle{
+    %Aggregates.Battle{
       id: id,
       result: result,
       next_round_number: next_round_number,
