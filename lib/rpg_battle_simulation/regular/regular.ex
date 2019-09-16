@@ -1,8 +1,20 @@
 defmodule RpgBattleSimulation.Regular do
   alias RpgBattleSimulation.{Regular.Battle, Regular.Round, RpgRules}
 
-  @attacker_data %{name: "BG", tactics: [2, 1], leadership: [2, 1], army_size: 100_000}
-  @defender_data %{name: "N", tactics: [3, 2], leadership: [3, 2], army_size: 90_000}
+  @attacker_data %{
+    name: "BG",
+    tactics: [2, 1],
+    leadership: [2, 1],
+    army_size: 100_000,
+    heroes: [[4, 3], [3, 2]]
+  }
+  @defender_data %{
+    name: "N",
+    tactics: [3, 2],
+    leadership: [3, 2],
+    army_size: 90_000,
+    heroes: [[4, 4], [3, 3]]
+  }
 
   def start(attacker_data \\ nil, defender_data \\ nil) do
     attacker = attacker_data || @attacker_data
@@ -44,9 +56,15 @@ defmodule RpgBattleSimulation.Regular do
         {battle.defender[:markers], defender_modifier + last_round.defender[:next_round_modifier]}
       )
 
+    attacker_hero_modifier =
+      RpgRules.calculate_hero_modifiers(battle.attacker[:heroes], attacker_tactics_modifier)
+
+    defender_hero_modifier =
+      RpgRules.calculate_hero_modifiers(battle.defender[:heroes], defender_tactics_modifier)
+
     current_round = %Round{
-      attacker: %{tactics_modifier: attacker_tactics_modifier},
-      defender: %{tactics_modifier: defender_tactics_modifier}
+      attacker: %{tactics_modifier: attacker_tactics_modifier + attacker_hero_modifier},
+      defender: %{tactics_modifier: defender_tactics_modifier + defender_hero_modifier}
     }
 
     %{battle | rounds: [current_round | previous_rounds]}

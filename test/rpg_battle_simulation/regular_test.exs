@@ -4,7 +4,13 @@ defmodule RpgBattleSimulation.RegularTest do
   alias RpgBattleSimulation.Regular
 
   test "flow of simulation" do
-    battle = Regular.start()
+    battle =
+      Regular.start(%{name: "BG", tactics: [2, 1], leadership: [2, 1], army_size: 100_000}, %{
+        name: "N",
+        tactics: [3, 2],
+        leadership: [3, 2],
+        army_size: 90_000
+      })
 
     assert %Battle{
              attacker: %{
@@ -125,6 +131,101 @@ defmodule RpgBattleSimulation.RegularTest do
            tactics_modifier: -3
          }},
         {0, -2},
+        "defender_won"
+      )
+
+    assert {:error, :battle_already_finished} = Regular.next_round(battle)
+  end
+
+  test "flow of simulation with heroes" do
+    battle = Regular.start()
+
+    assert %Battle{
+             attacker: %{
+               army_size: 100_000,
+               leadership: [2, 1],
+               markers: 10,
+               name: "BG",
+               tactics: [2, 1]
+             },
+             defender: %{
+               army_size: 90000,
+               leadership: [3, 2],
+               markers: 9,
+               name: "N",
+               tactics: [3, 2]
+             },
+             result: nil
+           } = battle
+
+    battle =
+      battle
+      |> run_and_assert_next_round(
+        {9,
+         %{
+           markers_lost: 1,
+           morale_modifier: 1,
+           next_round_modifier: 1,
+           tactics_modifier: -1
+         }},
+        {9,
+         %{
+           markers_lost: 0,
+           morale_modifier: 0,
+           next_round_modifier: 0,
+           tactics_modifier: 0
+         }}
+      )
+      |> run_and_assert_next_round(
+        {7,
+         %{
+           markers_lost: 2,
+           morale_modifier: 0,
+           next_round_modifier: 1,
+           tactics_modifier: -3
+         }},
+        {7,
+         %{
+           markers_lost: 2,
+           morale_modifier: 0,
+           next_round_modifier: 0,
+           tactics_modifier: -1
+         }},
+        {-2, 1}
+      )
+      |> run_and_assert_next_round(
+        {2,
+         %{
+           markers_lost: 5,
+           morale_modifier: 1,
+           next_round_modifier: 1,
+           tactics_modifier: 0
+         }},
+        {7,
+         %{
+           markers_lost: 0,
+           morale_modifier: 0,
+           next_round_modifier: 0,
+           tactics_modifier: -4
+         }},
+        {0, -2}
+      )
+      |> run_and_assert_next_round(
+        {-2,
+         %{
+           markers_lost: 4,
+           morale_modifier: 0,
+           next_round_modifier: 1,
+           tactics_modifier: -5
+         }},
+        {3,
+         %{
+           markers_lost: 4,
+           morale_modifier: 0,
+           next_round_modifier: 0,
+           tactics_modifier: -3
+         }},
+        {-4, 0},
         "defender_won"
       )
 

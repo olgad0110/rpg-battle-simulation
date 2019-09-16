@@ -4,7 +4,8 @@ defmodule RpgBattleSimulation.Regular.Battle do
           tactics: list(integer()),
           leadership: list(integer()),
           army_size: integer(),
-          markers: integer()
+          markers: integer(),
+          heroes: list()
         }
 
   @type t :: %__MODULE__{

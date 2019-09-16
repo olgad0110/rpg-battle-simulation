@@ -5,18 +5,35 @@ defmodule RpgBattleSimulation do
     name: "Nilfgaard group",
     tactics: [2, 1],
     leadership: [2, 1],
-    army_size: 250
+    army_size: 500,
+    heroes: [
+      [4, 4],
+      [4, 4],
+      [4, 4]
+    ]
   }
 
   def test_group_1 do
-    defender = %{name: "group 1", tactics: [3, 1], leadership: [2, 1], army_size: 200}
+    defender = %{
+      name: "group 1",
+      tactics: [3, 1],
+      leadership: [2, 1],
+      army_size: 400,
+      heroes: [[4, 4], [4, 3], [4, 4]]
+    }
 
     Logic.start(@nilfgaard_small_army, defender)
     |> do_next_round_until_finished()
   end
 
   def test_group_2 do
-    defender = %{name: "group 1", tactics: [2, 1], leadership: [3, 2], army_size: 200}
+    defender = %{
+      name: "group 1",
+      tactics: [2, 1],
+      leadership: [3, 2],
+      army_size: 400,
+      heroes: [[4, 4], [4, 4], [3, 4], [3, 4]]
+    }
 
     Logic.start(@nilfgaard_small_army, defender)
     |> do_next_round_until_finished()

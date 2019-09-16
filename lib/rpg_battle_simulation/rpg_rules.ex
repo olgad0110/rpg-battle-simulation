@@ -60,6 +60,24 @@ defmodule RpgBattleSimulation.RpgRules do
       when attacker_size < defender_size,
       do: {attacker_modifier, defender_modifier - 1}
 
+  def calculate_hero_modifiers(nil, _modifier), do: 0
+  def calculate_hero_modifiers([], _modifier), do: 0
+
+  def calculate_hero_modifiers(heroes, modifier) do
+    heroes
+    |> Enum.map(fn [dices, skill_value] ->
+      difficulty_level = @base_modifier + modifier - skill_value
+
+      {difficulty_level, roll_k6_successes_with_destiny(dices, Mix.env())}
+      |> case do
+        {dl, {6, successes}} when dl - 2 <= successes -> -1
+        {dl, {_, successes}} when dl > successes -> 0
+        {_dl, {_, _successes}} -> -1
+      end
+    end)
+    |> Enum.sum()
+  end
+
   @spec test_tactics(list(integer()), modifier :: integer()) ::
           {markers_lost :: integer(), morale_modifier :: integer()}
   def test_tactics([dices, skill_value], modifier) do
