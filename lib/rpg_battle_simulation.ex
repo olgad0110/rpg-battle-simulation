@@ -54,9 +54,39 @@ defmodule RpgBattleSimulation do
     |> Flow.partition()
     |> Flow.reduce(
       fn -> %{} end,
-      fn battle, acc -> Map.update(acc, battle.result, 1, &(&1 + 1)) end
+      fn battle, acc ->
+        rounds = battle.rounds |> length() |> Integer.to_string()
+
+        Map.update(
+          acc,
+          battle.result,
+          %{} |> Map.put(rounds, 1),
+          fn map -> Map.update(map, rounds, 1, &(&1 + 1)) end
+        )
+      end
     )
-    |> Flow.departition(&Map.new/0, &Map.merge(&1, &2, fn _, v1, v2 -> v1 + v2 end), & &1)
+    |> Flow.departition(
+      &Map.new/0,
+      &Map.merge(&1, &2, fn _, v1, v2 -> Map.merge(v1, v2, fn _, v1, v2 -> v1 + v2 end) end),
+      & &1
+    )
     |> Enum.to_list()
+    |> format_data(simulations)
+  end
+
+  defp format_data([results], simulations) do
+    results
+    |> Enum.map(fn {result, data} ->
+      total_value = data |> Enum.map(fn {_, k} -> k end) |> Enum.sum()
+      total_percentage = to_percentage(total_value, simulations)
+      rounds_percentage = data |> Enum.map(fn {v, k} -> {v, to_percentage(k, total_value)} end)
+
+      {result, %{chance: total_percentage, rounds: rounds_percentage}}
+    end)
+  end
+
+  defp to_percentage(value, total) do
+    result = (value * 1.0 / total) * 100 |> Float.round(2)
+    "#{result}%"
   end
 end
