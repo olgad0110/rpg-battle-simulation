@@ -92,12 +92,27 @@ defmodule RpgBattleSimulation.RpgRules do
   end
 
   @spec test_morale(
-          list(integer()),
+          tactics_skill :: list(integer()),
           modifier :: integer(),
           markers_lost :: integer(),
-          opponent_markers_lost :: integer()
+          opponent_markers_lost :: integer(),
+          previous_round_morale_outcome :: integer()
         ) :: next_round_modifier :: integer()
-  def test_morale([dices, skill_value], modifier, markers_lost, opponent_markers_lost)
+  def test_morale(
+        tactics_skill,
+        modifier,
+        markers_lost,
+        opponent_markers_lost,
+        previous_round_morale_outcome \\ 0
+      )
+
+  def test_morale(
+        [dices, skill_value],
+        modifier,
+        markers_lost,
+        opponent_markers_lost,
+        previous_round_morale_outcome
+      )
       when markers_lost >= opponent_markers_lost do
     difficulty_level =
       @base_modifier + modifier + (markers_lost - opponent_markers_lost) - skill_value
@@ -105,12 +120,19 @@ defmodule RpgBattleSimulation.RpgRules do
     {difficulty_level, roll_k6_successes_with_destiny(dices, Mix.env())}
     |> case do
       {dl, {6, successes}} when dl - 2 <= successes -> 0
-      {dl, {_, successes}} when dl > successes -> 1
+      {dl, {_, successes}} when dl > successes -> previous_round_morale_outcome + 1
       {_dl, _successes} -> 0
     end
   end
 
-  def test_morale([_dices, _skill_value], _modifier, _markers_lost, _opponent_markers_lost), do: 0
+  def test_morale(
+        [_dices, _skill_value],
+        _modifier,
+        _markers_lost,
+        _opponent_markers_lost,
+        _previous_round_morale_outcome
+      ),
+      do: 0
 
   def compute_battle_result(markers, markers), do: "draw"
 

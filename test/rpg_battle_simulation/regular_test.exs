@@ -53,7 +53,7 @@ defmodule RpgBattleSimulation.RegularTest do
          %{
            markers_lost: 0,
            morale_modifier: 1,
-           next_round_modifier: 1,
+           next_round_modifier: 2,
            tactics_modifier: -1
          }},
         {9,
@@ -70,8 +70,8 @@ defmodule RpgBattleSimulation.RegularTest do
          %{
            markers_lost: 2,
            morale_modifier: 1,
-           next_round_modifier: 1,
-           tactics_modifier: 1
+           next_round_modifier: 3,
+           tactics_modifier: 2
          }},
         {9,
          %{
@@ -87,8 +87,8 @@ defmodule RpgBattleSimulation.RegularTest do
          %{
            markers_lost: 2,
            morale_modifier: 1,
-           next_round_modifier: 1,
-           tactics_modifier: 1
+           next_round_modifier: 4,
+           tactics_modifier: 3
          }},
         {9,
          %{
@@ -103,32 +103,32 @@ defmodule RpgBattleSimulation.RegularTest do
          %{
            markers_lost: 2,
            morale_modifier: 0,
-           next_round_modifier: 1,
-           tactics_modifier: -3
-         }},
-        {7,
-         %{
-           markers_lost: 2,
-           morale_modifier: 0,
            next_round_modifier: 0,
+           tactics_modifier: -4
+         }},
+        {6,
+         %{
+           markers_lost: 3,
+           morale_modifier: 0,
+           next_round_modifier: 1,
            tactics_modifier: -1
          }},
-        {-4, 0}
+        {-8, 0}
       )
       |> run_and_assert_next_round(
-        {-1,
+        {0,
          %{
-           markers_lost: 4,
+           markers_lost: 3,
            morale_modifier: 1,
            next_round_modifier: 1,
-           tactics_modifier: 1
+           tactics_modifier: 0
          }},
-        {7,
+        {6,
          %{
            markers_lost: 0,
            morale_modifier: 0,
            next_round_modifier: 0,
-           tactics_modifier: -3
+           tactics_modifier: -2
          }},
         {0, -2},
         "defender_won"
@@ -181,7 +181,7 @@ defmodule RpgBattleSimulation.RegularTest do
          %{
            markers_lost: 2,
            morale_modifier: 0,
-           next_round_modifier: 1,
+           next_round_modifier: 2,
            tactics_modifier: -3
          }},
         {7,
@@ -198,8 +198,8 @@ defmodule RpgBattleSimulation.RegularTest do
          %{
            markers_lost: 5,
            morale_modifier: 1,
-           next_round_modifier: 1,
-           tactics_modifier: 0
+           next_round_modifier: 3,
+           tactics_modifier: 2
          }},
         {7,
          %{
@@ -215,12 +215,12 @@ defmodule RpgBattleSimulation.RegularTest do
          %{
            markers_lost: 4,
            morale_modifier: 0,
-           next_round_modifier: 1,
-           tactics_modifier: -5
+           next_round_modifier: 4,
+           tactics_modifier: -3
          }},
-        {3,
+        {5,
          %{
-           markers_lost: 4,
+           markers_lost: 2,
            morale_modifier: 0,
            next_round_modifier: 0,
            tactics_modifier: -3

@@ -112,12 +112,23 @@ defmodule RpgBattleSimulation.Regular do
   end
 
   defp test_morale(%Battle{rounds: [current_round | previous_rounds]} = battle) do
+    {attacker_previous_round_morale_outcome, defender_previous_round_morale_outcome} =
+      case previous_rounds do
+        [previous_round | _] ->
+          {previous_round.attacker[:next_round_modifier],
+           previous_round.defender[:next_round_modifier]}
+
+        _ ->
+          {0, 0}
+      end
+
     attacker_next_round_modifier =
       RpgRules.test_morale(
         battle.attacker[:leadership],
         current_round.attacker[:morale_modifier],
         current_round.attacker[:markers_lost],
-        current_round.defender[:markers_lost]
+        current_round.defender[:markers_lost],
+        attacker_previous_round_morale_outcome
       )
 
     defender_next_round_modifier =
@@ -125,7 +136,8 @@ defmodule RpgBattleSimulation.Regular do
         battle.defender[:leadership],
         current_round.defender[:morale_modifier],
         current_round.defender[:markers_lost],
-        current_round.attacker[:markers_lost]
+        current_round.attacker[:markers_lost],
+        defender_previous_round_morale_outcome
       )
 
     current_round = %{

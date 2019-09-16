@@ -86,7 +86,7 @@ defmodule RpgBattleSimulation do
   end
 
   defp to_percentage(value, total) do
-    result = (value * 1.0 / total) * 100 |> Float.round(2)
+    result = (value * 1.0 / total * 100) |> Float.round(2)
     "#{result}%"
   end
 end
